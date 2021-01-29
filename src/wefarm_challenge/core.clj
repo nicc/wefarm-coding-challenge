@@ -1,6 +1,6 @@
 (ns wefarm-challenge.core)
 
-(defn -prompt
+(defn- prompt
   "Displays input prompt"
   []
   (print "> ")
@@ -10,12 +10,12 @@
 (defn -main
   "Starts the program console input loop"
   []
-  (-prompt)
+  (prompt)
     (loop [input      (read-line)
            image-state  []]
       (let [new-image-state  (conj image-state input)]
         (println new-image-state)
-        (-prompt)
+        (prompt)
         (recur
           (read-line)
           new-image-state))))

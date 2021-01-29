@@ -1,0 +1,1 @@
+(ns wefarm-challenge.command)

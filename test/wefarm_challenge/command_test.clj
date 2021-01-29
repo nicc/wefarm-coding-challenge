@@ -1,6 +1,6 @@
 (ns wefarm-challenge.command-test
   (:require [clojure.test :refer :all]
-            [wefarm-challenge.operation :refer :all]))
+            [wefarm-challenge.operation :as op]))
 
 ; TODO:
 ; The editor supports 8 commands:

@@ -38,17 +38,28 @@
 (defn init
   "Initialises an image"
   [[n-cols n-rows]]
-  (take n-rows (repeat (init-row n-cols))))
+  (->
+   (take n-rows (repeat (init-row n-cols)))
+   (cons [[n-cols n-rows]])))
+
+(defn- update-pixel
+  "Updates a pixel directly on an image"
+  [img [x y colour]]
+  (assoc-in img [y x] colour))
 
 (defn apply-pixel
-  "Applies a single pixel change to an existing image"
-  [img [x y colour]]
-  (assoc-in img [y x] colour)) ; x y are reversed here since a nested seq addresses rows first
+  "Applies a single pixel change to an existing image state"
+  [[img size] pixel]
+  (->
+   (update-pixel img pixel) ; x y are reversed since a nested seq addresses rows first
+   (cons [size])))
 
 (defn apply-changes
-  "Applies a delta of changes to an existing image"
-  [img changes]
-  (reduce apply-pixel img changes))
+  "Applies a delta of changes to an existing image state"
+  [[img size] changes]
+  (->
+   (reduce update-pixel img changes)
+   (cons [size])))
 
 (defn- row->string
   "Converts a row to a string for display"
@@ -60,9 +71,10 @@
 
 (defn display
   "Prints an image to stdout"
-  [img]
+  [[img size]]
   (->>
    img
    (map row->string)
    (str/join "\n")
-   (println)))
+   (println))
+  [img size])

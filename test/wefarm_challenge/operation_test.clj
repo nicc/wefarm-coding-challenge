@@ -26,12 +26,13 @@
                    [:0 :T :B :T :T]
                    [:0 :T :B :T :0]
                    [:0 :0 :B :0 :0]
-                   [:0 :0 :0 :0 :0]]]
+                   [:0 :0 :0 :0 :0]]
+        img-state [fillable [5 5]]]
 
     (testing "a horizontal row"
       (is (=
            [[3 0 :F] [4 0 :F]]
-           (sort (op/fill fillable [5 5] [3 0] :F)))))
+           (sort (op/fill img-state [3 0] :F)))))
 
     (testing "a vertical row"
       (is (=
@@ -39,13 +40,13 @@
             [2 1 :F]
             [2 2 :F]
             [2 3 :F]]
-           (sort (op/fill fillable [5 5] [2 3] :F)))))
+           (sort (op/fill img-state [2 3] :F)))))
 
     (testing "an angle"
       (is (=
            (sort [[3 1 :F] [4 1 :F]
                   [3 2 :F]])
-           (sort (op/fill fillable [5 5] [4 1] :F)))))
+           (sort (op/fill img-state [4 1] :F)))))
 
     (testing "a complex shape"
       (is (=
@@ -54,4 +55,4 @@
                   [0 2 :F] [4 2 :F]
                   [0 3 :F] [1 3 :F] [3 3 :F] [4 3 :F]
                   [0 4 :F] [1 4 :F] [2 4 :F] [3 4 :F] [4 4 :F]])
-           (sort (op/fill fillable [5 5] [0 4] :F)))))))
+           (sort (op/fill img-state [0 4] :F)))))))

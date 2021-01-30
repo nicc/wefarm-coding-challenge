@@ -8,21 +8,21 @@
         (img/init size))
    :C (fn [[_ size] & _]
         (img/init size))
-   :L (fn [[img _] [x y colour]]
-        (img/apply-pixel img [x y colour]))
-   :V (fn [[img _] [column start end colour]]
+   :L (fn [img-state [x y colour]]
+        (img/apply-pixel img-state [x y colour]))
+   :V (fn [img-state [column start end colour]]
         (img/apply-changes
-         img
+         img-state
          (op/vertical-line column start end colour)))
-   :H (fn [[img _] [start end row colour]]
+   :H (fn [img-state [start end row colour]]
         (img/apply-changes
-         img
+         img-state
          (op/horizontal-line row start end colour)))
-   :F (fn [[img size] [x y colour]]
+   :F (fn [img-state [x y colour]]
         (img/apply-changes
-         img
-         (op/fill img size [x y] colour)))
-   :S (fn [[img _] & _] (img/display img))
+         img-state
+         (op/fill img-state [x y] colour)))
+   :S (fn [img-state & _] (img/display img-state))
    :X (fn [_] (println "TODO: EXIT! ")) })
 
 (defn execute

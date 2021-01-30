@@ -24,7 +24,7 @@
 
 (defn fill
   "Calculates a set of changes to fill a region"
-  [img img-size pixel colour]
+  [[img size] pixel colour]
   (let [region-colour   (img/get-pixel img pixel)
         fn-in-region?   (fn [px]
                           (= region-colour (img/get-pixel img px)))
@@ -34,7 +34,7 @@
     (loop [result    #{pixel}
            to-check  [pixel]]
 
-      (let [neighbours      (mapcat (partial img/get-neighbours img-size) to-check)
+      (let [neighbours      (mapcat (partial img/get-neighbours size) to-check)
             new-neighbours  (set-ops/difference (set neighbours) result)
             new-region      (filter fn-in-region? new-neighbours)]
 

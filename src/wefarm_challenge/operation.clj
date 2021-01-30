@@ -26,8 +26,11 @@
   "Calculates a set of changes to fill a region"
   [img img-size pixel colour]
   (let [region-colour   (img/get-pixel img pixel)
-        fn-in-region?   (fn [px] (= region-colour (img/get-pixel img px)))
-        fn-add-colour   (fn [px] (conj px colour))]
+        fn-in-region?   (fn [px]
+                          (= region-colour (img/get-pixel img px)))
+        fn-add-colour   (fn [px]
+                          (conj px colour))]
+
     (loop [result    #{pixel}
            to-check  [pixel]]
 
@@ -35,11 +38,11 @@
             new-neighbours  (set-ops/difference (set neighbours) result)
             new-region      (filter fn-in-region? new-neighbours)]
 
-        ; @WF: Okay there's some stuff going on here. Can discuss on call.
+        ; @WF: Okay there's some stuff going on here. Maybe we can discuss further on a call.
         ; A wide block of lets as above usually indicates an imperative style. Do this, then that, etc.
         ; This could be pipelined as below but then we have that weird (#( ___ )) thing from using
         ; a lambda in arrows just to swap argument order (-> vs ->>).
-        ; Something like Haskel's flip function would allow us to pipeline this more elegantly.
+        ; Something like Haskell's flip function would allow us to pipeline this more elegantly.
         ; Just a note to say I realise the above is a bit imperative but it seemed the best choice.
         ; [new-region      (->>
         ;                   to-check
@@ -49,4 +52,6 @@
 
         (if (empty? new-region)
           (map fn-add-colour result)
-          (recur (into result new-region) new-region))))))
+          (recur
+            (into result new-region)
+            new-region))))))

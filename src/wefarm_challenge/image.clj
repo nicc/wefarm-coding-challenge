@@ -1,4 +1,5 @@
-(ns wefarm-challenge.image)
+(ns wefarm-challenge.image
+  (:require [clojure.string :as str]))
 
 (def default-background :0) ; TODO: consider passing this in (dep injecting the default)
 
@@ -48,3 +49,20 @@
   "Applies a delta of changes to an existing image"
   [img changes]
   (reduce apply-pixel img changes))
+
+(defn- row->string
+  "Converts a row to a string for display"
+  [row]
+  (->>
+   row
+   (map name)
+   (str/join)))
+
+(defn display
+  "Prints an image to stdout"
+  [img]
+  (->>
+   img
+   (map row->string)
+   (str/join "\n")
+   (println)))

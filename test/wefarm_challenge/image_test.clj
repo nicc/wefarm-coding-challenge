@@ -74,3 +74,13 @@
                      [:0 :0 :0 :0 :0]
                      [:0 :0 :0 :T :0]]]
       (is (= expected (image/apply-pixel img-fixture [3 4 :T]))))))
+
+(deftest displaying-an-image
+  (is (=
+       (str "00000\n"
+            "00000\n"
+            "00000\n"
+            "00000\n"
+            "00000\n")
+       (with-out-str
+         (image/display img-fixture)))))

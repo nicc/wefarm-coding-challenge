@@ -17,7 +17,7 @@
          [:0 :0 :0]
          [:0 :0 :0]]
         [3 4]]
-       (cmd/execute nil ["I" 3 4]))))
+       (cmd/execute nil "I34"))))
 
 (deftest clearing-an-image
   (is (=
@@ -27,7 +27,7 @@
          [:0 :0 :0 :0 :0]
          [:0 :0 :0 :0 :0]]
         [5 5]]
-       (cmd/execute img-state-fixture ["C"]))))
+       (cmd/execute img-state-fixture "C"))))
 
 (deftest filling-a-pixel
   (is (=
@@ -37,7 +37,7 @@
          [:0 :P :B :0 :0]
          [:0 :0 :0 :0 :0]]
         [5 5]]
-       (cmd/execute img-state-fixture ["L" 1 3 :P]))))
+       (cmd/execute img-state-fixture "L24P"))))
 
 (deftest filling-a-region
   (testing "on a horizontal row"
@@ -48,7 +48,7 @@
            [:0 :0 :B :0 :0]
            [:0 :0 :0 :0 :0]]
           [5 5]]
-         (cmd/execute img-state-fixture ["F" 3 0 :F]))))
+         (cmd/execute img-state-fixture "F41F"))))
 
   (testing "on a vertical row"
     (is (=
@@ -58,7 +58,7 @@
            [:0 :0 :F :0 :0]
            [:0 :0 :0 :0 :0]]
           [5 5]]
-         (cmd/execute img-state-fixture ["F" 2 3 :F]))))
+         (cmd/execute img-state-fixture "F34F"))))
 
   (testing "forming a complex shape"
     (is (=
@@ -68,7 +68,7 @@
            [:F :F :B :F :F]
            [:F :F :F :F :F]]
           [5 5]]
-         (cmd/execute img-state-fixture ["F" 0 4 :F])))))
+         (cmd/execute img-state-fixture "F15F")))))
 
 (deftest drawing-a-horizontal-line
   (is (=
@@ -78,7 +78,7 @@
          [:0 :0 :B :0 :0]
          [:0 :0 :0 :0 :0]]
         [5 5]]
-       (cmd/execute img-state-fixture ["H" 1 3 1 :H]))))
+       (cmd/execute img-state-fixture "H242H"))))
 
 (deftest drawing-a-vertical-line
   (is (=
@@ -88,7 +88,7 @@
          [:0 :0 :B :0 :V]
          [:0 :0 :0 :0 :0]]
         [5 5]]
-       (cmd/execute img-state-fixture ["V" 4 1 3 :V]))))
+       (cmd/execute img-state-fixture "V524V"))))
 
 (deftest displaying-an-image
 
@@ -100,12 +100,12 @@
               "00B00\n"
               "00000\n")
          (with-out-str
-           (cmd/execute img-state-fixture ["S"])))))
+           (cmd/execute img-state-fixture "S")))))
 
   (testing "return value"
     (is (with-out-str
           (=
            img-state-fixture
-           (cmd/execute img-state-fixture ["S"]))))))
+           (cmd/execute img-state-fixture "S"))))))
 
 ; TODO: stress test here

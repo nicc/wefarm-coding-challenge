@@ -1,4 +1,7 @@
-(ns wefarm-challenge.core)
+(ns wefarm-challenge.core
+  (:require [wefarm-challenge.command :as cmd]))
+
+(def initial-img-state [[] [0 0]])
 
 (defn- prompt
   "Displays input prompt"
@@ -6,16 +9,12 @@
   (print "> ")
   (flush))
 
-; TODO: hook this up, obvs. just proving we can fold through input on GUI state. note ctrl+d hangs
 (defn -main
-  "Starts the program console input loop"
+  "Starts the console input loop"
   []
   (prompt)
-    (loop [input      (read-line)
-           image-state  []]
-      (let [new-image-state  (conj image-state input)]
-        (println new-image-state)
-        (prompt)
-        (recur
-          (read-line)
-          new-image-state))))
+  (loop [input      (read-line)
+         img-state  initial-img-state]
+    (let [new-img-state  (cmd/execute img-state input)]
+      (prompt)
+      (recur (read-line) new-img-state))))

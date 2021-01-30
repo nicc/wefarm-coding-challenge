@@ -33,13 +33,17 @@
 (defn- init-row
   "Initialises a single row"
   [n-cols]
-  (take n-cols (repeat default-background)))
+  (->>
+   (repeat default-background)
+   (take n-cols)
+   (vec)))
 
 (defn init
   "Initialises an image"
   [[n-cols n-rows]]
   (->
    (take n-rows (repeat (init-row n-cols)))
+   (vec)
    (cons [[n-cols n-rows]])))
 
 (defn- update-pixel

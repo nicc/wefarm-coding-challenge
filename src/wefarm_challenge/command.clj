@@ -99,8 +99,9 @@
   "Safely executes the appropriate function (or unhandled) for a given input command"
   [img-state input]
   (if-not (str/blank? input)
-    (let [[cmd & args]  (map str (seq input))
-          cmd-key       (keyword (str/upper-case cmd))]
+    (let [stripped-input  (str/replace input " " "")
+          [cmd & args]    (map str (seq stripped-input))
+          cmd-key         (keyword (str/upper-case cmd))]
 
       (safe-invoke
        (directory cmd-key)

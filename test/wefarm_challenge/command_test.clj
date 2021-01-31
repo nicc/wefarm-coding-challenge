@@ -90,6 +90,17 @@
         [5 5]]
        (cmd/execute img-state-fixture "V524V"))))
 
+(deftest input-sanitising
+  (testing "with whitespace"
+    (is (=
+         [[[:0 :0 :B :0 :0]
+           [:0 :T :B :T :V]
+           [:0 :T :B :T :V]
+           [:0 :0 :B :0 :V]
+           [:0 :0 :0 :0 :0]]
+          [5 5]]
+         (cmd/execute img-state-fixture " V  5 2 4  V ")))))
+
 (deftest displaying-an-image
   (testing "stdout"
     (is (=

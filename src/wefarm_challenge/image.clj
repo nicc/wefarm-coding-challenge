@@ -48,30 +48,24 @@
 (defn- init-row
   "Initialises a single row"
   [n-cols]
-  (->>
-   (repeat default-background)
-   (take n-cols)
-   (vec)))
+  (into [] (take n-cols (repeat default-background))))
 
 (defn init
   "Initialises an image"
   [[n-cols n-rows]]
   (->
-   (take n-rows (repeat (init-row n-cols)))
-   (vec)
+   (into [] (take n-rows (repeat (init-row n-cols))))
    (cons [[n-cols n-rows]])))
 
 (defn apply-pixel
   "Applies a single pixel change to an existing image state"
-  [img-state [x y colour]]
-  (let [size     (second img-state)
-        img-idx  0]
+  [[img size] [x y colour]]
 
-    ; could use a :pre condition here but giving nice feedback gets fiddly
-    (assert-valid-colour colour)
-    (assert-valid-range size [x y])
+  ; could use a :pre condition here but giving nice feedback gets fiddly
+  (assert-valid-colour colour)
+  (assert-valid-range size [x y])
 
-    (assoc-in img-state [img-idx y x] colour))) ; x y reversed since nested seq addresses rows first
+  [(assoc-in img [y x] colour) size]) ; x y reversed since nested seq addresses rows first
 
 (defn apply-changes
   "Applies a delta of changes to an existing image state"

@@ -1,22 +1,30 @@
-# wefarm-challenge
+# WeFarm Coding Challenge
 
-A Clojure library designed to ... well, that part is up to you.
+Hello, WeFarm. Here's my submission
 
 ## Usage
 
-FIXME
+To run the program, enter the following command from the root of the repo:
 
-## License
+`lein run`
 
-Copyright © 2021 FIXME
+Thereafter, you will be presented with a command prompt. The following commands are valid:
 
-This program and the accompanying materials are made available under the
-terms of the Eclipse Public License 2.0 which is available at
-http://www.eclipse.org/legal/epl-2.0.
+1. `I M N` - Create a new M x N image with all pixels coloured white (O).
+2. `C` - Clears the table, setting all pixels to white ( O ).
+3. `L X Y C` - Colours the pixel (X,Y) with colour C.
+4. `V X Y1 Y2 C` - Draw a vertical segment of colour C in column X between rows Y1 and Y2 (inclusive).
+5. `H X1 X2 Y C` - Draw a horizontal segment of colour C in row Y between columns X1 and X2 (inclusive).
+6. `F X Y C` - Fill the region R with the colour C. R is defined as: Pixel (X,Y) belongs to R. Any other pixel which is the same colour as (X,Y) and shares a common side with any pixel in R also belongs to this region.
+7. `S` - Show the contents of the current image
+8. `X` - Terminate the session
 
-This Source Code may also be made available under the following Secondary
-Licenses when the conditions for such availability set forth in the Eclipse
-Public License, v. 2.0 are satisfied: GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or (at your
-option) any later version, with the GNU Classpath Exception which is available
-at https://www.gnu.org/software/classpath/license.html.
+## Testing
+
+To test the program, enter the following command from the root of the repo:
+
+`lein test`
+
+## Dependencies
+
+Dependencies are managed by [Leiningen](https://leiningen.org/) and should be installed automatically when running any of the commands above.

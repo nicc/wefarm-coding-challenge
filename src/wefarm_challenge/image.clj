@@ -1,7 +1,7 @@
 (ns wefarm-challenge.image
   (:require [clojure.string :as str]))
 
-(def default-background :0) ; TODO: consider passing this in (dep injecting the default)
+(def default-background :0)
 
 (defn valid-pixel?
   "Checks if a pixel is within valid range for the given image dimensions"
@@ -11,6 +11,21 @@
    (< pix-y max-y)
    (<= 0 pix-x)
    (<= 0 pix-y)))
+
+(defn- assert-valid-colour
+  "Asserts that an input param is a valid colour"
+  [p]
+  (let [s (name p)]
+    (if-not
+      (re-matches #"^[A-Z]$" s)
+      (throw (AssertionError. (str "Expected '" s "' to be a capital letter."))))))
+
+(defn- assert-valid-range
+  "Asserts that an input param is a valid colour"
+  [size pixel]
+  (if-not
+    (valid-pixel? size pixel)
+    (throw (AssertionError. "The requested operation exceeds image size."))))
 
 (defn get-pixel
   "Returns the colour of a given pixel"
@@ -46,24 +61,22 @@
    (vec)
    (cons [[n-cols n-rows]])))
 
-(defn- update-pixel
-  "Updates a pixel directly on an image"
-  [img [x y colour]]
-  (assoc-in img [y x] colour))
-
 (defn apply-pixel
   "Applies a single pixel change to an existing image state"
-  [[img size] pixel]
-  (->
-   (update-pixel img pixel) ; x y are reversed since a nested seq addresses rows first
-   (cons [size])))
+  [img-state [x y colour]]
+  (let [size     (second img-state)
+        img-idx  0]
+
+    ; could use a :pre condition here but giving nice feedback gets fiddly
+    (assert-valid-colour colour)
+    (assert-valid-range size [x y])
+
+    (assoc-in img-state [img-idx y x] colour))) ; x y reversed since nested seq addresses rows first
 
 (defn apply-changes
   "Applies a delta of changes to an existing image state"
-  [[img size] changes]
-  (->
-   (reduce update-pixel img changes)
-   (cons [size])))
+  [img-state changes]
+  (reduce apply-pixel img-state changes))
 
 (defn- row->string
   "Converts a row to a string for display"

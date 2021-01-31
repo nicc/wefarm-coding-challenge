@@ -19,6 +19,15 @@
           colour   :G
 
           expected [[4 1 :G] [4 2 :G] [4 3 :G]]]
+      (is (= expected (op/vertical-line column start end colour)))))
+
+  (testing "when going backwards"
+    (let [column   4
+          start    3
+          end      1
+          colour   :G
+
+          expected [[4 1 :G] [4 2 :G] [4 3 :G]]]
       (is (= expected (op/vertical-line column start end colour))))))
 
 (deftest filling

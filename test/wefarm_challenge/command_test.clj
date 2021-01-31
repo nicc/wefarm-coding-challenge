@@ -91,8 +91,7 @@
        (cmd/execute img-state-fixture "V524V"))))
 
 (deftest displaying-an-image
-
-  (testing "to stdout"
+  (testing "stdout"
     (is (=
          (str "00B00\n"
               "0TBTT\n"
@@ -108,4 +107,103 @@
            img-state-fixture
            (cmd/execute img-state-fixture "S"))))))
 
-; TODO: stress test here
+(deftest bad-input
+  (testing "when command not recognised"
+    (is (=
+         "Command not recognised. Please try again.\n"
+         (with-out-str
+           (cmd/execute img-state-fixture "E"))))
+
+    (with-out-str
+      (is (=
+           img-state-fixture
+           (cmd/execute img-state-fixture "E")))))
+
+  (testing "when command arity is wrong"
+    (is (=
+         "Command 'I' expects 2 arguments. Please try again.\n"
+         (with-out-str
+           (cmd/execute img-state-fixture "I3")))))
+
+  (testing "when param type is wrong"
+    (is (=
+         "Expected 'I' to be an integer. Please try again.\n"
+         (with-out-str
+           (cmd/execute img-state-fixture "II3"))))
+
+    (is (=
+         "Expected '-' to be a capital letter. Please try again.\n"
+         (with-out-str
+           (cmd/execute img-state-fixture "L12-"))))
+
+    (with-out-str
+      (is (=
+           img-state-fixture
+           (cmd/execute img-state-fixture "L12-")))))
+
+  (testing "when drawing outside the lines"
+    (is (=
+         "The requested operation exceeds image size. Please try again.\n"
+         (with-out-str
+           ; "single pixel - y > height"
+           (cmd/execute img-state-fixture "L16O"))))
+
+    (is (=
+         "The requested operation exceeds image size. Please try again.\n"
+         (with-out-str
+           ; "single pixel - x > width"
+           (cmd/execute img-state-fixture "L61O"))))
+
+    (is (=
+         "The requested operation exceeds image size. Please try again.\n"
+         (with-out-str
+           ; "vertical line - column > width"
+           (cmd/execute img-state-fixture "V613O"))))
+
+    (is (=
+         "The requested operation exceeds image size. Please try again.\n"
+         (with-out-str
+           ; "vertical line - start > height"
+           (cmd/execute img-state-fixture "V162O"))))
+
+    (is (=
+         "The requested operation exceeds image size. Please try again.\n"
+         (with-out-str
+           ; "vertical line - end > height"
+           (cmd/execute img-state-fixture "V116O"))))
+
+    (is (=
+         "The requested operation exceeds image size. Please try again.\n"
+         (with-out-str
+           ; "horizontal line - row > height"
+           (cmd/execute img-state-fixture "H136O"))))
+
+    (is (=
+         "The requested operation exceeds image size. Please try again.\n"
+         (with-out-str
+           ; "vertical line - start > height"
+           (cmd/execute img-state-fixture "H621O"))))
+
+    (is (=
+         "The requested operation exceeds image size. Please try again.\n"
+         (with-out-str
+           ; "vertical line - end > height"
+           (cmd/execute img-state-fixture "H161O"))))
+
+    (is (=
+         "The requested operation exceeds image size. Please try again.\n"
+         (with-out-str
+           ; "fill - y > height"
+           (cmd/execute img-state-fixture "F16O"))))
+
+    (is (=
+         "The requested operation exceeds image size. Please try again.\n"
+         (with-out-str
+           ; "fill - x > width"
+           (cmd/execute img-state-fixture "F61O"))))
+
+    (with-out-str
+      (is (=
+           img-state-fixture
+           ; "single pixel - y > height"
+           (cmd/execute img-state-fixture "L16O"))))))

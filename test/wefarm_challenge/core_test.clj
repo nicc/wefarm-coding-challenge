@@ -2,6 +2,11 @@
   (:require [clojure.test :refer :all]
             [wefarm-challenge.core :as core]))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+; with more time I would get this working
+; (deftest accepts-user-input
+;   (is (=
+;        "\n"
+;        (with-out-str
+;          (with-in-str "I11\nS"
+;            (with-redefs [cmd/exit-program (fn [] "Okay we're done.")]
+;              (core/-main)))))))

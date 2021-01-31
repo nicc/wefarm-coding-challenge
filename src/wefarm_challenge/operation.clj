@@ -2,13 +2,12 @@
   (:require [wefarm-challenge.image :as img]
             [clojure.set :as set-ops]))
 
-; TODO: pre (and post?) conditions to assert valid ranges
-
 (defn- line
   "Calculates a set of changes depicting a generic line.
    Currently only supports straight ones."
   [f-mutator start end]
-  (map f-mutator (range start (inc end))))
+  (let [[x y]  (sort [start end])]
+    (map f-mutator (range x (inc y)))))
 
 (defn horizontal-line
   "Calculates a set of changes depicting a horizontal line"
